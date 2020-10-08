@@ -15,6 +15,16 @@ class TestLRUCache : TestCase() {
     }
 
     @Test
+    fun testGetGetNonExists() {
+        val cache = LRUCache<Int, Int>(5)
+
+        cache.put(1, 1)
+        cache.put(2, 2)
+
+        assert(cache.get(3) == null)
+    }
+
+    @Test
     fun testRemoving() {
         val cache = LRUCache<Int, Int>(5)
 
