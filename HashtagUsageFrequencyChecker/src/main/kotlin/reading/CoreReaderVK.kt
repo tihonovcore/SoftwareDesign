@@ -1,45 +1,10 @@
-import com.google.gson.JsonElement
+package reading
+
+import parsing.ResponseParserVK
 import com.google.gson.JsonParser
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.IllegalStateException
 import java.net.URL
-
-//data class Configuration(val hashtag: String, val startTime: Long, val endTime: Long)
-
-class FullReader(
-    val hashtag: String,
-    val startTime: Long,
-    val endTime: Long,
-    private val coreReader: CoreReader
-){
-    private var lastReadValue: ReadValue = Empty
-
-    fun hasNext(): Boolean {
-        lastReadValue = coreReader.tryToRead(lastReadValue, hashtag, startTime, endTime)
-
-        return when (lastReadValue) {
-            is New -> true
-            else -> false
-        }
-    }
-
-    fun read(): JsonElement {
-        lastReadValue = coreReader.tryToRead(lastReadValue, hashtag, startTime, endTime)
-
-        val currentValue = lastReadValue
-        if (currentValue is New) {
-            lastReadValue = Old(currentValue.json)
-            return currentValue.json
-        }
-
-        throw IllegalStateException("Reading ended")
-    }
-}
-
-interface CoreReader {
-    fun tryToRead(lastReadValue: ReadValue, hashtag: String, startTime: Long, endTime: Long): ReadValue
-}
 
 class CoreReaderVK : CoreReader {
     private val prefix = "https://api.vk.com/method"
@@ -85,8 +50,3 @@ class CoreReaderVK : CoreReader {
         return lastReadValue is Empty
     }
 }
-
-sealed class ReadValue
-object Empty : ReadValue()
-data class New(val json: JsonElement) : ReadValue()
-data class Old(val json: JsonElement) : ReadValue()

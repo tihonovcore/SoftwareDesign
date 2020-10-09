@@ -1,3 +1,10 @@
+import parsing.Date
+import parsing.ResponseParser
+import parsing.ResponseParserVK
+import reading.CoreReader
+import reading.CoreReaderVK
+import reading.FullReader
+
 class FrequencyCounter(
     private val coreReader: CoreReader,
     private val responseParser: ResponseParser
