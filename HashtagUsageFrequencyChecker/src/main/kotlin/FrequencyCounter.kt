@@ -1,15 +1,17 @@
-class FrequencyCounter {
+class FrequencyCounter(
+    private val hashtagReader: HashtagReader,
+    private val responseParser: ResponseParser
+) {
     fun count(hashtag: String): List<Int> {
         val currentTime = System.currentTimeMillis() / 1000
         val hourInSeconds = 60 * 60
         val dayInSeconds = 24 * hourInSeconds
 
-        //todo get as arg and configure here
-        val hashtagReader = HashtagReader(hashtag, currentTime - dayInSeconds, currentTime)
+        hashtagReader.configure(hashtag, currentTime - dayInSeconds, currentTime)
 
-        val items = mutableListOf<Item>()
+        val items = mutableListOf<Date>()
         while (hashtagReader.hasNext()) {
-            items += ResponseParser(hashtagReader.read()).parseDates()
+            items += responseParser.parseDates(hashtagReader.read())
         }
 
         val timeRanges = List(24) { i ->
@@ -29,7 +31,8 @@ class FrequencyCounter {
 }
 
 fun main() {
-    val counter = FrequencyCounter()
+    //test VK
+    val counter = FrequencyCounter(HashtagReaderVK(), ResponseParserVK())
 
 //    println(counter.count("a"))
     println(counter.count("cat"))

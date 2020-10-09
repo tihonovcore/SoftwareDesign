@@ -1,41 +1,28 @@
 import com.google.gson.JsonElement
+import com.google.gson.JsonParser
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.IllegalStateException
 import java.net.URL
 
-/* Possible implementation
-HR_Interface {
-    read
-    hasNext
+interface HashtagReader {
+    fun hasNext(): Boolean
+    fun read(): JsonElement
+    fun configure(hashtag: String, startTime: Long, endTime: Long)
 }
 
-HR {
-    val hr
-    configure(config) {
-        hr = HR_internal(config)
-    }
-    read = hr.read
-    hasNext = hr.hasNext
-}
+data class Configuration(val hashtag: String, val startTime: Long, val endTime: Long)
 
-HR_internal {
-    this one
-}
- */
-
-class HashtagReader(
-    val hashtag: String,
-    val startTime: Long,
-    val endTime: Long
-) {
+class HashtagReaderVK : HashtagReader {
+    private var configuration: Configuration = Configuration("", -1, -1)
     private val prefix = "https://api.vk.com/method"
     private val request = "newsfeed.search?"
+
     //todo: move to config
     private val token = "def35358a44036e714c0b5da143f906c0a9b8532b0854e7130e40f8054f0256b6e2ea5f1db011c0260fcb"
 
     private var lastReadValue: ReadValue = Empty
-    fun hasNext(): Boolean {
+    override fun hasNext(): Boolean {
         tryToRead()
 
         return when (lastReadValue) {
@@ -44,7 +31,7 @@ class HashtagReader(
         }
     }
 
-    fun read(): JsonElement {
+    override fun read(): JsonElement {
         tryToRead()
 
         val currentValue = lastReadValue
@@ -56,28 +43,33 @@ class HashtagReader(
         throw IllegalStateException("Reading ended")
     }
 
+    override fun configure(hashtag: String, startTime: Long, endTime: Long) {
+        configuration = Configuration(hashtag, startTime, endTime)
+        lastReadValue = Empty
+    }
+
     //todo: clear
     private fun tryToRead() {
         if (lastReadValue is New) return
 
         val link: String
         if (isFirstRequest()) {
-            link = buildRequest(startTime, endTime)
+            link = buildRequest(configuration.startTime, configuration.endTime)
         } else {
-            val nextFrom = ResponseParser((lastReadValue as Old).json).parseNextFrom() ?: return
+            val nextFrom = ResponseParserVK().parseNextPageRequest((lastReadValue as Old).json) ?: return
             link = buildRequest(nextFrom)
         }
-        println(link)
+        println(link) //todo: remove
         val url = URL(link)
         BufferedReader(InputStreamReader(url.openStream())).use {
             val text = it.readText()
-            val json = ResponseParser(text).json
+            val json = JsonParser.parseString(text).asJsonObject["response"]
             lastReadValue = New(json)
         }
     }
 
     private fun commonBuildRequest(): Pair<String, String> {
-        return Pair("$prefix/${request}q=%23$hashtag", "&count=200&v=5.52&access_token=$token")
+        return Pair("$prefix/${request}q=%23${configuration.hashtag}", "&count=200&v=5.52&access_token=$token")
     }
 
     private fun buildRequest(startTime: Long, endTime: Long): String {
