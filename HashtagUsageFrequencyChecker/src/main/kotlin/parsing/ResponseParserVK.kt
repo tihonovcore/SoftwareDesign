@@ -2,7 +2,7 @@ package parsing
 
 import com.google.gson.JsonElement
 
-class ResponseParserVK : ResponseParser() {
+open class ResponseParserVK : ResponseParser() {
     override fun parseDates(json: JsonElement): List<Date> {
         try {
             return json.asJsonObject["items"].asJsonArray.map { Date(it.asJsonObject["date"].asLong) }.toList()

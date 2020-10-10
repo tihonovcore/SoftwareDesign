@@ -6,8 +6,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 
-class CoreReaderVK : CoreReader {
-    private val prefix = "https://api.vk.com/method"
+open class CoreReaderVK(val prefix: String = "https://api.vk.com/method") : CoreReader {
+//    private val prefix = "https://api.vk.com/method"
     private val request = "newsfeed.search?"
 
     //todo: move to config
@@ -27,7 +27,8 @@ class CoreReaderVK : CoreReader {
         val url = URL(link)
         BufferedReader(InputStreamReader(url.openStream())).use {
             val text = it.readText()
-            val json = JsonParser.parseString(text).asJsonObject["response"]
+            println("text: $text") //todo: remove
+            val json = JsonParser.parseString(text).asJsonObject["response"] //todo: move to parser
             return New(json)
         }
     }
