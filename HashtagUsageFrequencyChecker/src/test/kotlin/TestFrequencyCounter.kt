@@ -1,19 +1,15 @@
 import junit.framework.TestCase
 import org.junit.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import parsing.Date
 import parsing.ResponseParserVK
 import reading.*
 
 class TestFrequencyCounter : TestCase() {
-    private val json = readJson("responseOnOnePageVK").single() //JsonParser.parseString(response).asJsonObject["response"] //todo: move `.asJsonObject["response"]` to parser
+    private val json = readFiles("responseOnOnePageVK").toJsonVK().single()
 
     private val currentTime = System.currentTimeMillis() / 1000
     private val hourInSeconds = 60 * 60
-
-    private fun <T> any(): T = Mockito.any<T>()
-    private fun <T> eq(obj: T): T = Mockito.eq<T>(obj)
 
     @Test
     fun testCountAgainstVK() {
@@ -21,10 +17,10 @@ class TestFrequencyCounter : TestCase() {
         val responseParser = mock(ResponseParserVK::class.java)
 
         val hashtag = "cat"
-        val someDates = listOf(
-            Date(currentTime - 1000),
-            Date(currentTime - hourInSeconds - 1000),
-            Date(currentTime - hourInSeconds - 2000)
+        val someDates = listOf<Date>(
+            currentTime - 1000,
+            currentTime - hourInSeconds - 1000,
+            currentTime - hourInSeconds - 2000
         )
 
         `when`(coreReader.tryToRead(eq(Empty), any(), anyLong(), anyLong())).thenReturn(New(json))

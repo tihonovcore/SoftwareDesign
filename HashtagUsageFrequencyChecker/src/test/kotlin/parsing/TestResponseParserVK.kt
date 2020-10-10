@@ -1,19 +1,16 @@
 package parsing
 
-import com.google.gson.JsonParser
 import junit.framework.TestCase
 import org.junit.Test
-import java.nio.file.Files
-import java.nio.file.Paths
+import readFiles
+import toJsonVK
 
 class TestResponseParserVK : TestCase() {
-    private val filePath = System.getProperty("user.dir") + "/src/test/resources/responseSampleVK"
-    private val response = Files.readString(Paths.get(filePath))
-    private val json = JsonParser.parseString(response).asJsonObject["response"] //todo: move `.asJsonObject["response"]` to parser
+    private val json = readFiles("responseSampleVK").toJsonVK().single()
 
     @Test
     fun testParseDates() {
-        val actualResult = ResponseParserVK().parseDates(json).map{ it.date }.toSet()
+        val actualResult = ResponseParserVK().parseDates(json).toSet()
         val expectedResult = setOf<Long>(1602244353, 1602244200, 1602243001)
 
         assertEquals(expectedResult, actualResult)
