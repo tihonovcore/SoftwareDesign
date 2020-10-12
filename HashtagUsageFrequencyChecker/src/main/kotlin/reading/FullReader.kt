@@ -3,6 +3,10 @@ package reading
 import com.google.gson.JsonElement
 import java.lang.IllegalStateException
 
+/**
+ * Reader with methods [hasNext] and [read]. Uses
+ * [coreReader] for requesting to specific server.
+ */
 class FullReader(
     private val hashtag: String,
     private val startTime: Long,

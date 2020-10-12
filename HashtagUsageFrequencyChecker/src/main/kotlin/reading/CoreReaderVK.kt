@@ -6,6 +6,9 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 
+/**
+ * Makes request to api.vk.com and returns result.
+ */
 open class CoreReaderVK(
     private val prefix: String = "https://api.vk.com/method/newsfeed.search"
 ) : CoreReader {

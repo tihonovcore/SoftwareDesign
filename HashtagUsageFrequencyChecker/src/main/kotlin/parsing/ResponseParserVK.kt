@@ -3,6 +3,9 @@ package parsing
 import com.google.gson.JsonElement
 import java.lang.IllegalStateException
 
+/**
+ * Gets useful information from VK's responses.
+ */
 open class ResponseParserVK : ResponseParser() {
     override fun parseDates(json: JsonElement): List<Date> {
         try {

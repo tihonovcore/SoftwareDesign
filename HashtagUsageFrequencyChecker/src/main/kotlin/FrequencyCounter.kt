@@ -5,10 +5,18 @@ import reading.CoreReader
 import reading.CoreReaderVK
 import reading.FullReader
 
+/**
+ * Count hashtags usage frequency
+ */
 class FrequencyCounter(
     private val coreReader: CoreReader,
     private val responseParser: ResponseParser
 ) {
+    /**
+     * Count and returns hashtags usage frequency in next format:
+     * list of 24 numbers, where i-th means that (24 - i) hours ago
+     * have posted correspond number of posts.
+     */
     fun count(hashtag: String): List<Int> {
         val currentTime = System.currentTimeMillis() / 1000
         val fullReader = FullReader(hashtag, currentTime - dayInSeconds, currentTime, coreReader)
