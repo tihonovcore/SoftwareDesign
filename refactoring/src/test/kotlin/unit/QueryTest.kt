@@ -1,17 +1,17 @@
 package unit
 
-import ServletElements
+import AbstractServletTest
 import checkDatabaseConsistency
-import junit.framework.TestCase
 import org.junit.Test
 import prepareDatabase
 import ru.akirakozov.sd.refactoring.servlet.QueryServlet
 import testTemplate
 
-class QueryTest : TestCase() {
-    private val servletElements = listOf(
-        ServletElements(QueryServlet(), "/query")
+class QueryTest : AbstractServletTest() {
+    override val servletElements = listOf(
+        QueryServlet() to "/query"
     )
+
     @Test
     fun testMax() {
         val fillSql =
@@ -22,7 +22,6 @@ class QueryTest : TestCase() {
         prepareDatabase(fillSql)
 
         testTemplate(
-            servletElements,
             requests = listOf(
                 "http://localhost:8081/query?command=max"
             ),
@@ -53,7 +52,6 @@ class QueryTest : TestCase() {
         prepareDatabase(fillSql)
 
         testTemplate(
-            servletElements,
             requests = listOf(
                 "http://localhost:8081/query?command=min"
             ),
@@ -85,7 +83,6 @@ class QueryTest : TestCase() {
         prepareDatabase(fillSql)
 
         testTemplate(
-            servletElements,
             requests = listOf(
                 "http://localhost:8081/query?command=sum"
             ),
@@ -119,7 +116,6 @@ class QueryTest : TestCase() {
         prepareDatabase(fillSql)
 
         testTemplate(
-            servletElements,
             requests = listOf(
                 "http://localhost:8081/query?command=count"
             ),
@@ -134,11 +130,11 @@ class QueryTest : TestCase() {
         )
 
         checkDatabaseConsistency(listOf(
-                "Coca" to 123,
-                "Cheese" to 300,
-                "Lemon" to 304,
-                "Covid-test" to 34,
-                "Cola" to 125
+            "Coca" to 123,
+            "Cheese" to 300,
+            "Lemon" to 304,
+            "Covid-test" to 34,
+            "Cola" to 125
         ))
     }
 }

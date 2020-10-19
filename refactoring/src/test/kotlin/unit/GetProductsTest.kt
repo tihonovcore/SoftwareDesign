@@ -1,16 +1,15 @@
 package unit
 
-import ServletElements
+import AbstractServletTest
 import checkDatabaseConsistency
-import junit.framework.TestCase
 import org.junit.Test
 import prepareDatabase
 import ru.akirakozov.sd.refactoring.servlet.GetProductsServlet
 import testTemplate
 
-class GetProductsTest : TestCase() {
-    private val servletElements = listOf(
-        ServletElements(GetProductsServlet(), "/get-products")
+class GetProductsTest : AbstractServletTest() {
+    override val servletElements = listOf(
+        GetProductsServlet() to "/get-products"
     )
 
     @Test
@@ -18,7 +17,6 @@ class GetProductsTest : TestCase() {
         prepareDatabase()
 
         testTemplate(
-            servletElements,
             requests = listOf("http://localhost:8081/get-products"),
             expectedResponses = listOf("<html><body>\n</body></html>\n")
         )
@@ -38,7 +36,6 @@ class GetProductsTest : TestCase() {
         prepareDatabase(fillSql)
 
         testTemplate(
-            servletElements,
             requests = listOf("http://localhost:8081/get-products"),
             expectedResponses = listOf(
                 """<html><body>

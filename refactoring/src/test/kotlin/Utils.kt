@@ -7,9 +7,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import java.sql.DriverManager
-import java.sql.ResultSet
 import java.sql.Statement
-import javax.servlet.http.HttpServlet
 
 private const val testDatabaseUrl = "jdbc:sqlite:test.db"
 
@@ -40,13 +38,7 @@ internal fun prepareDatabase(fillSql: String) {
     databaseAction { statement -> statement.executeUpdate(fillSql) }
 }
 
-internal data class ServletElements(
-    val servlet: HttpServlet,
-    val pathSpec: String
-)
-
-internal fun testTemplate(
-    servletElements: List<ServletElements>,
+internal fun AbstractServletTest.testTemplate(
     requests: List<String>,
     expectedResponses: List<String>
 ) {

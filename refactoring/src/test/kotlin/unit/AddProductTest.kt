@@ -1,8 +1,7 @@
 package unit
 
-import ServletElements
+import AbstractServletTest
 import checkDatabaseConsistency
-import junit.framework.TestCase
 import org.junit.Assert.assertThrows
 import org.junit.Test
 import prepareDatabase
@@ -10,9 +9,9 @@ import ru.akirakozov.sd.refactoring.servlet.AddProductServlet
 import testTemplate
 import java.io.IOException
 
-class AddProductTest : TestCase() {
-    private val servletElements = listOf(
-        ServletElements(AddProductServlet(), "/add-product")
+class AddProductTest : AbstractServletTest() {
+    override val servletElements = listOf(
+        AddProductServlet() to "/add-product"
     )
 
     @Test
@@ -20,7 +19,6 @@ class AddProductTest : TestCase() {
         prepareDatabase()
 
         testTemplate(
-            servletElements,
             requests = listOf("http://localhost:8081/add-product?name=wolfMask&price=367"),
             expectedResponses = listOf("OK\n")
         )
@@ -35,7 +33,6 @@ class AddProductTest : TestCase() {
         prepareDatabase()
 
         testTemplate(
-            servletElements,
             requests = listOf(
                 "http://localhost:8081/add-product?name=pikachu&price=14",
                 "http://localhost:8081/add-product?name=iphone12mini&price=992",
@@ -56,7 +53,6 @@ class AddProductTest : TestCase() {
         prepareDatabase()
 
         testTemplate(
-            servletElements,
             requests = listOf(
                 "http://localhost:8081/add-product?name=starship&price=37",
                 "http://localhost:8081/add-product?name=falcon9&price=17",
@@ -80,7 +76,6 @@ class AddProductTest : TestCase() {
 
         assertThrows(IOException::class.java) {
             testTemplate(
-                servletElements,
                 requests = listOf("http://localhost:8081/add-product?nameeeeee=woalfMask&purice=367"),
                 expectedResponses = listOf("OK\n")
             )
