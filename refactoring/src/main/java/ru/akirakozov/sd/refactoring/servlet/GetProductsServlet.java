@@ -1,5 +1,7 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
+import ru.akirakozov.sd.refactoring.HtmlWriter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,18 +18,22 @@ public class GetProductsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        var htmlWriter = new HtmlWriter(response.getWriter());
+
         try {
             try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
                 Statement stmt = c.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT");
-                response.getWriter().println("<html><body>");
+                htmlWriter.start();
 
                 while (rs.next()) {
                     String  name = rs.getString("name");
                     int price  = rs.getInt("price");
-                    response.getWriter().println(name + "\t" + price + "</br>");
+
+                    htmlWriter.print(name + "\t" + price);
+                    htmlWriter.br();
                 }
-                response.getWriter().println("</body></html>");
+                htmlWriter.end();
 
                 rs.close();
                 stmt.close();
