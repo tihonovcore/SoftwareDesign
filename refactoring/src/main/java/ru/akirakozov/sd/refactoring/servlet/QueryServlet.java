@@ -37,7 +37,7 @@ public class QueryServlet extends HttpServlet {
                     resultSet.close();
                     statement.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else if ("min".equals(command)) {
@@ -60,7 +60,7 @@ public class QueryServlet extends HttpServlet {
                     resultSet.close();
                     statement.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else if ("sum".equals(command)) {
@@ -79,7 +79,7 @@ public class QueryServlet extends HttpServlet {
                     resultSet.close();
                     statement.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else if ("count".equals(command)) {
@@ -98,7 +98,7 @@ public class QueryServlet extends HttpServlet {
                     resultSet.close();
                     statement.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else {
