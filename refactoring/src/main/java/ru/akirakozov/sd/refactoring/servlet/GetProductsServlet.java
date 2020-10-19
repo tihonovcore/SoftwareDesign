@@ -15,30 +15,28 @@ import java.sql.Statement;
  * @author akirakozov
  */
 public class GetProductsServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var htmlWriter = new HtmlWriter(response.getWriter());
 
         try {
-            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                Statement stmt = c.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT");
+            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT");
                 htmlWriter.start();
 
-                while (rs.next()) {
-                    String  name = rs.getString("name");
-                    int price  = rs.getInt("price");
+                while (resultSet.next()) {
+                    String  name = resultSet.getString("name");
+                    int price  = resultSet.getInt("price");
 
                     htmlWriter.print(name + "\t" + price);
                     htmlWriter.br();
                 }
                 htmlWriter.end();
 
-                rs.close();
-                stmt.close();
+                resultSet.close();
+                statement.close();
             }
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
