@@ -1,5 +1,6 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
+import kotlin.Pair;
 import ru.akirakozov.sd.refactoring.HtmlWriter;
 import ru.akirakozov.sd.refactoring.SqlFacade;
 
@@ -12,28 +13,19 @@ import java.sql.*;
 /**
  * @author akirakozov
  */
-public class GetProductsServlet extends HttpServlet {
+public class GetProductsServlet extends AbstractProductServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         var htmlWriter = new HtmlWriter(response.getWriter());
 
-        new SqlFacade("jdbc:sqlite:test.db").databaseAction(statement -> {
-            try {
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT");
-                htmlWriter.start();
+        var products = readAll("SELECT * FROM PRODUCT");
 
-                while (resultSet.next()) {
-                    String name = resultSet.getString("name");
-                    int price = resultSet.getInt("price");
-
-                    htmlWriter.print(name + "\t" + price);
-                    htmlWriter.br();
-                }
-                htmlWriter.end();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        htmlWriter.start();
+        for (Pair<String, Integer> product : products) {
+            htmlWriter.print(product.getFirst() + "\t" + product.getSecond());
+            htmlWriter.br();
+        }
+        htmlWriter.end();
 
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
