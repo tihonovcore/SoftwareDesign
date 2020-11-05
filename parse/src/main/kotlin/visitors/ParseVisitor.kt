@@ -43,8 +43,9 @@ class ParseVisitor : TokenVisitor {
         while (operations.isNotEmpty()) {
             val top = operations.pop()
             if (top !is OperationToken) {
-                throw IllegalStateException("list")
+                throw IllegalStateException("No close brace for $top")
             }
+
             postfixNotation += top
         }
 
