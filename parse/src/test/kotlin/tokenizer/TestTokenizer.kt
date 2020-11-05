@@ -41,14 +41,18 @@ class TestTokenizer {
 
     @Test
     fun testFewOperations() {
-        val input = "15+227"
+        val input = "1/15+227*4"
         val tokenizer = Tokenizer(input)
 
         assertEquals(
             listOf(
-                NumberToken("15", 0, 2),
-                Plus("+", 2, 3),
-                NumberToken("227", 3, 6),
+                NumberToken("1", 0, 1),
+                Divide("/", 1, 2),
+                NumberToken("15", 2, 4),
+                Plus("+", 4, 5),
+                NumberToken("227", 5, 8),
+                Multiply("*", 8, 9),
+                NumberToken("4", 9, 10),
             ),
             tokenizer.getTokens()
         )
