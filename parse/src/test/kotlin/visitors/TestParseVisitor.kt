@@ -138,7 +138,7 @@ class TestParseVisitor {
     }
 
     @Test
-    fun testNoCloneBrace() {
+    fun testNoCloseBrace() {
         val input = "5-(4+3"
         val tokens = Tokenizer(input).getTokens()
 
