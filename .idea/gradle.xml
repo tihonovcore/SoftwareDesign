@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/HashtagUsageFrequencyChecker" />
             <option value="$PROJECT_DIR$/LRUCache" />
+            <option value="$PROJECT_DIR$/parse" />
             <option value="$PROJECT_DIR$/refactoring" />
           </set>
         </option>
