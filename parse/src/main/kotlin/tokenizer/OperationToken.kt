@@ -2,7 +2,7 @@ package tokenizer
 
 import visitors.TokenVisitor
 
-abstract class OperationToken : Token {
+sealed class OperationToken : Token {
     abstract val priority: Int
     abstract val renderValue: String
 
