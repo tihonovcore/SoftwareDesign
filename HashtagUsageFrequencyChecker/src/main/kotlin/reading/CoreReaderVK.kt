@@ -9,9 +9,11 @@ import java.net.URL
 /**
  * Makes request to api.vk.com and returns result.
  */
-open class CoreReaderVK(
-    private val prefix: String = "https://api.vk.com/method/newsfeed.search"
+open class CoreReaderVK internal constructor(
+    private val prefix: String
 ) : CoreReader {
+    constructor() : this("https://api.vk.com/method/newsfeed.search")
+
     private val token = Config.loadToken()
 
     override fun tryToRead(
