@@ -54,33 +54,3 @@ class EdgeListGraph(
         drawingApi.render()
     }
 }
-
-fun main() {
-    val matrix = listOf(
-        listOf(0, 1, 1, 1, 1),
-        listOf(0, 0, 1, 1, 1),
-        listOf(0, 0, 0, 1, 1),
-        listOf(0, 0, 0, 0, 1),
-        listOf(0, 0, 0, 0, 0),
-    )
-
-    val edges = listOf(
-        Edge(0, 1),
-        Edge(0, 2),
-        Edge(0, 3),
-        Edge(0, 4),
-        Edge(1, 2),
-        Edge(1, 3),
-        Edge(1, 4),
-        Edge(2, 3),
-        Edge(2, 4),
-        Edge(3, 4),
-//        Edge(5, 6),
-    )
-
-//    MatrixGraph(AwtDrawingApi(), matrix).draw()
-//    MatrixGraph(FxDrawingApi(), matrix).draw()
-
-    EdgeListGraph(AwtDrawingApi(), edges).draw()
-    EdgeListGraph(FxDrawingApi(), edges).draw()
-}
