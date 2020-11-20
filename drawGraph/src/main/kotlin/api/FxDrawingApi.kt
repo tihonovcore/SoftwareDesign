@@ -1,5 +1,6 @@
 package api
 
+import geometry.applyMargin
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
@@ -14,6 +15,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class FxDrawingApi : DrawingApi {
+    override val width = 600.0
+    override val height = 400.0
+
     companion object {
         private val actions = mutableListOf<(GraphicsContext) -> Unit>()
     }
@@ -56,7 +60,7 @@ class FxDrawingApi : DrawingApi {
         class Visualizer : Application() {
             override fun start(primaryStage: Stage) {
                 val root = Group()
-                val canvas = Canvas(600.0, 400.0)
+                val canvas = Canvas(width, height)
                 val gc: GraphicsContext = canvas.graphicsContext2D
 
                 actions.forEach { it(gc) }

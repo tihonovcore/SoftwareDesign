@@ -1,5 +1,6 @@
 package api
 
+import geometry.applyMargin
 import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -13,6 +14,9 @@ import kotlin.system.exitProcess
 typealias DrawAction = (Graphics2D) -> Unit
 
 class AwtDrawingApi : DrawingApi {
+    override val width = 600.0
+    override val height = 400.0
+
     private val actions = mutableListOf<DrawAction>()
 
     override fun drawCircle(center: Point2D, radius: Double) {
@@ -60,7 +64,7 @@ class AwtDrawingApi : DrawingApi {
                 exitProcess(0)
             }
         })
-        frame.setSize(600, 400)
+        frame.setSize(width.toInt(), height.toInt())
         frame.isVisible = true
     }
 }
