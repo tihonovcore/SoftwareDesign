@@ -57,20 +57,30 @@ class FxDrawingApi : DrawingApi {
     }
 
     override fun render() {
-        class Visualizer : Application() {
-            override fun start(primaryStage: Stage) {
-                val root = Group()
-                val canvas = Canvas(width, height)
-                val gc: GraphicsContext = canvas.graphicsContext2D
-
-                actions.forEach { it(gc) }
-
-                root.children.add(canvas)
-                primaryStage.scene = Scene(root)
-                primaryStage.show()
-            }
-        }
+        Visualizer.actions = actions
+        Visualizer.h = height
+        Visualizer.w = width
 
         Application.launch(Visualizer::class.java)
+    }
+}
+
+private class Visualizer : Application() {
+    override fun start(primaryStage: Stage) {
+        val root = Group()
+        val canvas = Canvas(w, h)
+        val gc: GraphicsContext = canvas.graphicsContext2D
+
+        actions.forEach { it(gc) }
+
+        root.children.add(canvas)
+        primaryStage.scene = Scene(root)
+        primaryStage.show()
+    }
+
+    companion object {
+        var actions: List<(GraphicsContext) -> Unit> = mutableListOf()
+        var w: Double = 600.0
+        var h: Double = 400.0
     }
 }
