@@ -46,7 +46,7 @@ class AwtDrawingApi : DrawingApi {
         }
     }
 
-    fun render() {
+    override fun render() {
         val frame = object : Frame() {
             override fun paint(g: Graphics) {
                 actions.forEach { it(g as Graphics2D) }

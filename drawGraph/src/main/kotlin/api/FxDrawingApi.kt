@@ -21,7 +21,7 @@ class FxDrawingApi : DrawingApi {
     override fun drawCircle(center: Point2D, radius: Double) {
         actions += { gc ->
             gc.fill = Color.GREEN
-            gc.fillOval(center.x, center.y, 2 * radius, 2 * radius)
+            gc.fillOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius)
         }
     }
 
@@ -49,7 +49,7 @@ class FxDrawingApi : DrawingApi {
         }
     }
 
-    fun render() {
+    override fun render() {
         class Visualizer : Application() {
             override fun start(primaryStage: Stage) {
                 val root = Group()
