@@ -3,11 +3,9 @@ package graphs
 import api.AwtDrawingApi
 import api.DrawingApi
 import api.FxDrawingApi
-import java.awt.Point
+import geometry.*
 import java.awt.geom.Point2D
 import kotlin.math.PI
-import kotlin.math.sin
-import kotlin.math.cos
 
 data class Edge(
     val from: Int,
@@ -16,9 +14,9 @@ data class Edge(
 
 class EdgeListGraph(
     drawingApi: DrawingApi,
-    val edges: List<Edge>
+    private val edges: List<Edge>
 ) : Graph(drawingApi) {
-    private val countVertexes by lazy {
+    override val countVertexes by lazy {
         val from = edges.map { it.from }.toSet()
         val to = edges.map { it.to }.toSet()
         (from + to).size
@@ -27,8 +25,8 @@ class EdgeListGraph(
     override fun draw() {
         val distanceBetweenVertexes = 2 * PI / countVertexes
 
-        val x0 = 300.0
-        val y0 = 225.0
+        val x0 = drawingApi.width / 2
+        val y0 = drawingApi.height / 2
 
         val centralX = 0.0
         val centralY = 170.0
@@ -54,26 +52,6 @@ class EdgeListGraph(
         }
 
         drawingApi.render()
-    }
-
-    private fun Point2D.shift(radian: Double) {
-        val sinValue = sin(radian)
-        val cosValue = cos(radian)
-
-        val newX = cosValue * x - sinValue * y
-        val newY = sinValue * x + cosValue * y
-
-        setLocation(newX, newY)
-    }
-
-    private fun Point2D.reflect() = setLocation(x, -y)
-
-    private fun Point2D.move(dx: Double, dy: Double) {
-        setLocation(x + dx, y + dy)
-    }
-
-    private fun Point2D.toPoint(): Point {
-        return Point(x.toInt(), y.toInt())
     }
 }
 
