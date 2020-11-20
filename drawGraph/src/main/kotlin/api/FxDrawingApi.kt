@@ -65,7 +65,7 @@ class FxDrawingApi : DrawingApi {
     }
 }
 
-private class Visualizer : Application() {
+internal class Visualizer : Application() {
     override fun start(primaryStage: Stage) {
         val root = Group()
         val canvas = Canvas(w, h)
