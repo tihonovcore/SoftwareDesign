@@ -3,7 +3,7 @@ package graphs
 import api.DrawingApi
 
 abstract class Graph(
-    private val drawingApi: DrawingApi
+    protected val drawingApi: DrawingApi
 ) {
     abstract fun draw()
 }
