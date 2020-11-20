@@ -22,7 +22,10 @@ class AwtDrawingApi : DrawingApi {
         }
     }
 
-    override fun drawArrow(from: Point, to: Point) {
+    override fun drawArrow(from: Point, to: Point, margin: Double) {
+        applyMargin(from, to, margin)
+        applyMargin(to, from, margin)
+
         actions += { g: Graphics2D ->
             g.paint = Color.black
             g.drawLine(from.x, from.y, to.x, to.y)

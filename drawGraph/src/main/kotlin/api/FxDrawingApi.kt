@@ -25,7 +25,10 @@ class FxDrawingApi : DrawingApi {
         }
     }
 
-    override fun drawArrow(from: Point, to: Point) {
+    override fun drawArrow(from: Point, to: Point, margin: Double) {
+        applyMargin(from, to, margin)
+        applyMargin(to, from, margin)
+
         actions += { gc ->
             gc.fill = Color.RED
             gc.strokeLine(from.x.toDouble(), from.y.toDouble(), to.x.toDouble(), to.y.toDouble())
