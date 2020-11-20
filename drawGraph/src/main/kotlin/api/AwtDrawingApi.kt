@@ -18,7 +18,7 @@ class AwtDrawingApi : DrawingApi {
     override fun drawCircle(center: Point2D, radius: Double) {
         actions += { g: Graphics2D ->
             g.paint = Color.green
-            g.fill(Ellipse2D.Double(center.x, center.y, 2 * radius, 2 * radius))
+            g.fill(Ellipse2D.Double(center.x - radius, center.y - radius, 2 * radius, 2 * radius))
         }
     }
 
