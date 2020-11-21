@@ -28,6 +28,16 @@ class TodolistInFileDao : TodolistDao {
     override fun done(id: Int) {
         currentList.cases.find { it.id == id }!!.done = true
 
+        flush()
+    }
+
+    override fun addCase(case: Case) {
+        currentList.cases += case
+
+        flush()
+    }
+
+    private fun flush() {
         Files.delete(path)
         Files.createFile(path)
         lists.forEach {
@@ -36,10 +46,6 @@ class TodolistInFileDao : TodolistDao {
             }
             Files.writeString(path, "\n", StandardOpenOption.APPEND)
         }
-    }
-
-    override fun addCase(case: Case) {
-        Files.writeString(path, "\n${case.description},${case.done}", StandardOpenOption.APPEND)
     }
 
     private fun readFile(): MutableList<TodoList> {
