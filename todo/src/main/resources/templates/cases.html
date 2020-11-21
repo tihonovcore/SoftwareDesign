@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>cases</title>
+<table>
+    <th:block th:each="case : ${cases}">
+        <tr>
+            <td th:text="${case.description}"/>
+            <td>
+                <form method="POST" action="/updateCase">
+                    <input type="hidden" name="caseId" th:value="${case.id}">
+                    <button type="submit">Done</button>
+                </form>
+            </td>
+        </tr>
+    </th:block>
+</table>
+</html>
