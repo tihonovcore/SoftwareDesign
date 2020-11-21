@@ -1,6 +1,8 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Todolists</title>
+
+<title>Your todo</title>
+
 <table>
     <tr>
         <td>
@@ -37,10 +39,12 @@
 </table>
 <table>
     <tr>
-        <form method="POST" action="/addCase">
-            <input type="text" name="description">
-            <button type="submit">Add</button>
-        </form>
+        <td>
+            <form method="POST" action="/addCase">
+                <input type="text" name="description" autofocus>
+                <button type="submit">Add</button>
+            </form>
+        </td>
     </tr>
 </table>
 </html>

@@ -1,7 +1,7 @@
 package com.todolist.model
 
 class TodoList(
-    val cases: MutableList<Case>,
+    val id: Int,
     val name: String,
-    val id: Int
+    val cases: MutableList<Case>
 )

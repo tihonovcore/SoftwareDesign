@@ -14,7 +14,7 @@ class TodolistJdbcDao : TodolistDao {
         val maxListId = lists.map { it.id }.maxOrNull() ?: -1
         val id = maxListId + 1
 
-        lists += TodoList(mutableListOf(), name, id)
+        lists += TodoList(id, name, mutableListOf())
 
         SqlFacade(databaseUrl).databaseAction { statement ->
             statement.executeUpdate("insert into Todolist (id, name) values ($id, '$name');")
@@ -53,7 +53,7 @@ class TodolistJdbcDao : TodolistDao {
         }
     }
 
-    override fun freeId(): Int {
+    override fun freeCaseId(): Int {
         val maxId = currentList.cases.map { it.id }.maxOrNull() ?: -1
         return maxId + 1
     }
@@ -86,7 +86,7 @@ class TodolistJdbcDao : TodolistDao {
                 }
             }
 
-            TodoList(cases, list.name, list.id)
+            TodoList(list.id, list.name, cases)
         }.toMutableList()
     }
 }

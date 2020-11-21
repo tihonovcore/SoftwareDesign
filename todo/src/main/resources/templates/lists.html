@@ -1,10 +1,8 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Manage todolists</title>
-</head>
+
+<title>Manage TodoLists</title>
+
 <body>
     <table>
         <th:block th:each="list : ${lists}">
@@ -21,10 +19,12 @@
     </table>
     <table>
         <tr>
-            <form method="POST" action="/addList">
-                <input type="text" name="listName">
-                <button type="submit">Add list</button>
-            </form>
+            <td>
+                <form method="POST" action="/addList">
+                    <input type="text" name="listName" autofocus>
+                    <button type="submit">Add list</button>
+                </form>
+            </td>
         </tr>
     </table>
     <form method="GET" action="/">

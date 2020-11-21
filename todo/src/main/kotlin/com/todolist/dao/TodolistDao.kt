@@ -14,5 +14,5 @@ interface TodolistDao {
     fun done(id: Int)
     fun addCase(case: Case)
 
-    fun freeId(): Int
+    fun freeCaseId(): Int
 }

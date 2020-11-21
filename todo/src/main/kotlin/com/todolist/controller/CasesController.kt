@@ -29,7 +29,7 @@ class CasesController(
 
     @RequestMapping("/addCase", method = [RequestMethod.POST])
     fun add(@RequestParam("description") description: String): String {
-        todolistDao.addCase(Case(todolistDao.freeId(), description))
+        todolistDao.addCase(Case(todolistDao.freeCaseId(), description))
         return "redirect:/"
     }
 
