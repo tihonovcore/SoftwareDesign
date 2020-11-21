@@ -1,6 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>cases</title>
+<title>Todolists</title>
+<table>
+    <tr>
+        <td>
+            <form method="POST" action="/chooseList">
+                <select th:name="listId">
+                    <th:block th:each="list : ${lists}">
+                        <option th:text="${list.name}" th:value="${list.id}"></option>
+                    </th:block>
+                </select>
+                <input type="hidden" value="listId">
+                <button type="submit">Choose</button>
+            </form>
+        </td>
+    </tr>
+</table>
 <table>
     <th:block th:each="case : ${cases}">
         <tr>

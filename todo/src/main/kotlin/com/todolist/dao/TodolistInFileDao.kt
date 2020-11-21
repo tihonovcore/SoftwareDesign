@@ -41,6 +41,7 @@ class TodolistInFileDao : TodolistDao {
         Files.delete(path)
         Files.createFile(path)
         lists.forEach {
+            Files.writeString(path, "${it.id}@${it.name}@", StandardOpenOption.APPEND)
             it.cases.forEach {
                 Files.writeString(path, "${it.description},${it.done} ### ", StandardOpenOption.APPEND)
             }
@@ -52,7 +53,8 @@ class TodolistInFileDao : TodolistDao {
         return Files.readAllLines(path)
             .filter { it.isNotEmpty() }
             .map { line ->
-                val cases = line
+                val (listId, name, suffix) = line.split("@")
+                val cases = suffix
                     .split(" ### ")
                     .filter { it.isNotEmpty() }
                     .mapIndexed { id, case ->
@@ -61,7 +63,7 @@ class TodolistInFileDao : TodolistDao {
                     }
                     .toMutableList()
 
-                TodoList(cases)
+                TodoList(cases, name, Integer.parseInt(listId))
             }
             .toMutableList()
     }

@@ -24,6 +24,8 @@ class HtmlController(
     @GetMapping("/cases")
     fun cases(modelMap: ModelMap): String {
         modelMap.addAttribute("cases", todolistDao.currentList.cases.filter { !it.done })
+        modelMap.addAttribute("currList", todolistDao.currentList)
+        modelMap.addAttribute("lists", todolistDao.lists)
         return "cases"
     }
 
@@ -36,6 +38,12 @@ class HtmlController(
     @RequestMapping("/addCase", method = [RequestMethod.POST])
     fun add(@RequestParam("description") description: String): String {
         todolistDao.addCase(Case(todolistDao.currentList.cases.size, description))
+        return "redirect:/cases"
+    }
+
+    @RequestMapping("/chooseList", method = [RequestMethod.POST])
+    fun chooseList(@RequestParam("listId") listId: Int): String {
+        todolistDao.currentList = todolistDao.lists.find { it.id == listId }!!
         return "redirect:/cases"
     }
 }
