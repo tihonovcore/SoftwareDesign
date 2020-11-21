@@ -1,6 +1,6 @@
 package com.todolist
 
-import com.todolist.dao.CaseDao
+import com.todolist.dao.TodolistDao
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.ModelMap
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 class HtmlController(
-    private val caseDao: CaseDao
+    private val todolistDao: TodolistDao
 ) {
     @GetMapping("/")
     fun hello(model: Model): String {
@@ -22,13 +22,13 @@ class HtmlController(
 
     @GetMapping("/cases")
     fun cases(modelMap: ModelMap): String {
-        modelMap.addAttribute("cases", caseDao.cases.filter { !it.done })
+        modelMap.addAttribute("cases", todolistDao.currentList.cases.filter { !it.done })
         return "cases"
     }
 
     @RequestMapping("/updateCase", method = [RequestMethod.POST])
     fun update(@RequestParam("caseId") caseId: Int): String {
-        caseDao.done(caseId)
+        todolistDao.done(caseId)
         return "redirect:/cases"
     }
 }
