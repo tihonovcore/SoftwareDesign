@@ -37,7 +37,7 @@ class HtmlController(
 
     @RequestMapping("/addCase", method = [RequestMethod.POST])
     fun add(@RequestParam("description") description: String): String {
-        todolistDao.addCase(Case(todolistDao.currentList.cases.size, description))
+        todolistDao.addCase(Case(todolistDao.freeId(), description))
         return "redirect:/cases"
     }
 

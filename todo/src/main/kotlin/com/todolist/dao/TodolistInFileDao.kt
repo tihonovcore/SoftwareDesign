@@ -13,7 +13,7 @@ class TodolistInFileDao : TodolistDao {
 
     override var currentList = lists.first()
 
-    override fun addList() {
+    override fun addList(name: String) {
         TODO("Not yet implemented")
     }
 
@@ -35,6 +35,11 @@ class TodolistInFileDao : TodolistDao {
         currentList.cases += case
 
         flush()
+    }
+
+    override fun freeId(): Int {
+        val maxId = currentList.cases.map { it.id }.maxOrNull() ?: -1
+        return maxId + 1
     }
 
     private fun flush() {
