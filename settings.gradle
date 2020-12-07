@@ -5,3 +5,5 @@ include 'refactoring'
 include 'parse'
 include 'drawGraph'
 include 'todo'
+include 'clock'
+
