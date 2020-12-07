@@ -10,22 +10,19 @@ public class RunBank {
         Account vladAccount = new Account(1, 100);
         Account petrAccount = new Account(2, 100);
 
-        System.out.println("vlad: " + vladAccount);
-        System.out.println("petr: " + petrAccount);
+        for (int i = 0; i < 20; i++) {
+            bank.addMoney(vlad, vladAccount, 100);
+            bank.passMoney(vlad, vladAccount, petrAccount, 1);
+        }
 
-        bank.addMoney(vlad, vladAccount, 100);
-        System.out.println("vlad: " + vladAccount.getAmount());
-        System.out.println("petr: " + petrAccount.getAmount());
+        longGetting(bank, petr, petrAccount);
+    }
 
-        bank.getMoney(petr, petrAccount, 100);
-        System.out.println("vlad: " + vladAccount.getAmount());
-        System.out.println("petr: " + petrAccount.getAmount());
+    private static void longGetting(Bank bank, User user, Account account) {
+        try {
+            Thread.sleep(2345L);
+        } catch (InterruptedException ignore) {}
 
-        bank.passMoney(petr, vladAccount, petrAccount, 100);
-        System.out.println("vlad: " + vladAccount.getAmount());
-        System.out.println("petr: " + petrAccount.getAmount());
-
-        //todo: add long tests
-        //todo: add tests with much calls
+        bank.getMoney(user, account, 100);
     }
 }
