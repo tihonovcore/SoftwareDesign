@@ -1,3 +1,4 @@
+import AggregationConfig.Companion.TEST_PORT
 import com.xebialabs.restito.builder.stub.StubHttp.whenHttp
 import com.xebialabs.restito.semantics.*
 import com.xebialabs.restito.semantics.Action.*
@@ -7,8 +8,6 @@ import org.glassfish.grizzly.http.util.HttpStatus
 import org.junit.Test
 
 class TestActors : TestCase() {
-    private val port = 32543
-
     private val google = Condition.custom { call -> call.uri.startsWith("/google") }
     private val yandex = Condition.custom { call -> call.uri.startsWith("/yandex") }
     private val bing = Condition.custom { call -> call.uri.startsWith("/bing") }
@@ -20,7 +19,7 @@ class TestActors : TestCase() {
 
     @Test
     fun testResponse() {
-        val stubServer = StubServer(port).run()
+        val stubServer = StubServer(TEST_PORT).run()
         whenHttp(stubServer).match(google).then(stringContent(gJson))
         whenHttp(stubServer).match(yandex).then(stringContent(yJson))
         whenHttp(stubServer).match(bing).then(stringContent(bJson))
@@ -38,7 +37,7 @@ class TestActors : TestCase() {
 
     @Test
     fun testLongResponse() {
-        val stubServer = StubServer(port).run()
+        val stubServer = StubServer(TEST_PORT).run()
         whenHttp(stubServer).match(google).then(stringContent(gJson))
         whenHttp(stubServer).match(yandex).then(stringContent(yJson))
         whenHttp(stubServer).match(bing).then(composite(delay(1500), stringContent(bJson)))
@@ -55,7 +54,7 @@ class TestActors : TestCase() {
 
     @Test
     fun testErrorResponse() {
-        val stubServer = StubServer(port).run()
+        val stubServer = StubServer(TEST_PORT).run()
         whenHttp(stubServer).match(google).then(stringContent(gJson))
         whenHttp(stubServer).match(yandex).then(stringContent(yJson))
         whenHttp(stubServer).match(bing).then(status(HttpStatus.BAD_GATEWAY_502))

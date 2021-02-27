@@ -1,3 +1,4 @@
+import AggregationConfig.Companion.TIMEOUT
 import actors.Aggregator
 import akka.actor.ActorRef
 import akka.actor.ActorSystem
@@ -10,6 +11,6 @@ fun aggregate(request: String): Set<String> {
     val kernel = system.actorOf(Props.create(Aggregator::class.java, answers), "aggregator")
     kernel.tell(Request(request), ActorRef.noSender())
 
-    Thread.sleep(1000)
+    Thread.sleep(TIMEOUT)
     return answers
 }

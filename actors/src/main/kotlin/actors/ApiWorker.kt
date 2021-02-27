@@ -1,5 +1,7 @@
 package actors
 
+import AggregationConfig.Companion.TEST_PORT
+import AggregationConfig.Companion.TOP_N
 import akka.actor.AbstractActor
 import akka.japi.pf.ReceiveBuilder
 import com.google.gson.JsonElement
@@ -16,9 +18,9 @@ class ApiWorker : AbstractActor() {
 
     private fun onResponse(msg: Api) {
         val url = when (msg) {
-            is Google -> URL("http://localhost:32543/google/com/${msg.request}")
-            is Yandex -> URL("http://localhost:32543/yandex/com/${msg.request}")
-            is Bing -> URL("http://localhost:32543/bing/com/${msg.request}")
+            is Google -> URL("http://localhost:$TEST_PORT/google/com/${msg.request}")
+            is Yandex -> URL("http://localhost:$TEST_PORT/yandex/com/${msg.request}")
+            is Bing -> URL("http://localhost:$TEST_PORT/bing/com/${msg.request}")
         }
         val json = BufferedReader(InputStreamReader(url.openStream())).use {
             val text = it.readText()
@@ -29,6 +31,6 @@ class ApiWorker : AbstractActor() {
     }
 
     private fun JsonElement.process(): List<String> {
-        return asJsonObject["answers"].asJsonArray.take(5).map { it.toString() }
+        return asJsonObject["answers"].asJsonArray.take(TOP_N).map { it.toString() }
     }
 }
