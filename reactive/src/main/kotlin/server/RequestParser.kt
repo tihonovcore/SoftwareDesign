@@ -11,21 +11,20 @@ fun parseRequest(path: List<String>): RequestType {
             SignUp(name, currency)
         }
         "add_product" -> {
-            assert(path.size == 2) { return Error("Wrong request") }
+            assert(path.size == 3) { return Error("Wrong request") }
             val productName = path[1]
             val price = path[2].toDoubleOrNull() ?: return Error("Bad price: ${path[2]}")
             AddProduct(productName, price)
         }
         "show_for" -> {
-            assert(path.size == 1) { return Error("Wrong request") }
-            val userId = path[1].toIntOrNull() ?: return Error("Bad id: ${path[1]}")
-            ShowFor(userId)
+            assert(path.size == 2) { return Error("Wrong request") }
+            ShowFor(name = path[1])
         }
         else -> Error("Unexpected action: ${path.first()}")
     }
 }
 
-private fun parseCurrency(currency: String): Currency? {
+fun parseCurrency(currency: String): Currency? {
     return when(currency.toLowerCase()) {
         "usd" -> Currency.USD
         "rub" -> Currency.RUB

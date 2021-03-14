@@ -1,7 +1,15 @@
 package model
 
+import org.bson.Document
+import server.parseCurrency
+
 data class User(
-    val id: Int,
     val name: String,
-    val curr: Currency
-)
+    val currency: Currency
+) {
+    constructor(document: Document) : this(
+        document.getString("name"),
+        parseCurrency(document.getString("currency"))!!
+    )
+}
+
